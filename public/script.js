@@ -171,52 +171,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle file selection with in-memory processing
 document.getElementById("imageUpload").addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  // Update file name display
-  const fileName = document.querySelector(".file-name");
-  fileName.textContent = file.name;
-
-  // Create FileReader for in-memory processing
-  const reader = new FileReader();
-  
-  reader.onload = (event) => {
-    uploadedImage = new Image();
-    uploadedImage.src = event.target.result;
-    uploadedImage.onload = () => {
-      // Check if we need to auto-rotate the image to landscape
-      const isLandscape = uploadedImage.width > uploadedImage.height;
-      const frameWidth = parseFloat(document.getElementById('frameWidth').value);
-      const frameHeight = parseFloat(document.getElementById('frameHeight').value);
-      const frameIsLandscape = frameWidth > frameHeight;
-      
-      // Check if orientation change is needed
-      if (isLandscape !== frameIsLandscape) {
-        // Swap frame dimensions
-        document.getElementById('frameWidth').value = frameHeight;
-        document.getElementById('frameHeight').value = frameWidth;
-        // Reset frame preset since we modified dimensions
-        document.getElementById('frameSizePreset').value = '';
-        updateFrameCustomVisibility();
-        
-        // Hide orientation controls since image forced an orientation
-        if (orientationSelect) {
-          orientationSelect.closest('.form-group').style.display = 'none';
-        }
-      } else {
-        // Show orientation controls if no forced change was needed
-        if (orientationSelect) {
-          orientationSelect.closest('.form-group').style.display = 'block';
-          orientationSelect.value = 'auto';
-        }
-      }
-      
-      updateRotationInfo(false);
-      updateMatSizeToFit(); // Ensure mat still fits after any frame changes
-      renderCanvas();
-    };
-  };
+const file = e.target.files[0];
+if (!file) return;
+// Update file name display
+const fileName = document.querySelector(".file-name");
+fileName.textContent = file.name;
+// Create FileReader for in-memory processing
+const reader = new FileReader();
+reader.onload = (event) => {
+uploadedImage = new Image();
+uploadedImage.src = event.target.result;
+uploadedImage.onload = () => {
+// Check if we need to auto-rotate the image to landscape
+const isLandscape = uploadedImage.width > uploadedImage.height;
+const frameWidth = parseFloat(document.getElementById('frameWidth').value);
+const frameHeight = parseFloat(document.getElementById('frameHeight').value);
+const frameIsLandscape = frameWidth > frameHeight;
+// Check if orientation change is needed
+if (isLandscape !== frameIsLandscape) {
+// Swap frame dimensions
+document.getElementById('frameWidth').value = frameHeight;
+document.getElementById('frameHeight').value = frameWidth;
+// Reset frame preset since we modified dimensions
+document.getElementById('frameSizePreset').value = '';
+updateFrameCustomVisibility();
+// Hide orientation controls since image forced an orientation
+if (orientationSelect) {
+orientationSelect.closest('.form-group').style.display = 'none';
+}
+} else {
+// Show orientation controls if no forced change was needed
+if (orientationSelect) {
+orientationSelect.closest('.form-group').style.display = 'block';
+orientationSelect.value = 'auto';
+}
+}
+updateRotationInfo(false);
+updateMatSizeToFit(); // Ensure mat still fits after any frame changes
+// Force a re-render after a small delay to ensure image is ready
+    setTimeout(() => {
+        updateRotationInfo();
+        updateMatSizeToFit();
+        renderCanvas();
+    }, 10);
+};
+};
 
   reader.onerror = (error) => {
     alert("Error reading file: " + error);
@@ -549,7 +548,7 @@ function renderCanvas() {
     const finalY = matY + (matHpx - finalH) / 2;
 
     // Draw the final image and update rotation info
-    updateRotationInfo(needsAutoRotate);
+    updateRotationInfo();
     ctx.drawImage(sourceImage, finalX, finalY, finalW, finalH);
   }
 
