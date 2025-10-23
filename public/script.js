@@ -179,6 +179,10 @@ if (fillCheckbox) fillCheckbox.addEventListener('change', renderCanvas);
 // Show mat checkbox
 if (showMatCheckbox) showMatCheckbox.addEventListener('change', renderCanvas);
 
+// Listen to frame thickness changes
+const frameThicknessInput = document.getElementById('frameThickness');
+frameThicknessInput.addEventListener('input', renderCanvas);
+
 // Orientation handling
 const orientationSelect = document.getElementById('orientationSelect');
 function applyAutoOrientationToFrame() {
