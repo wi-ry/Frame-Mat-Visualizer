@@ -64,39 +64,44 @@
         
         <div class="form-section">
           <h3>Mat Settings</h3>
-          <label>Common Borders:
-              <select id="matBorderPreset">
-          <option value="2" selected>Standard Border (scales with frame)</option>
-          <option value="">Custom Size</option>
-          <option value="1">Narrow Border (scales with frame)</option>
-          <option value="1.5">Medium Border (scales with frame)</option>
-          <option value="2.5">Wide Border (scales with frame)</option>
-          <option value="3">Extra Wide Border (scales with frame)</option>
-            </select>
+          <label>Show mat:
+            <input type="checkbox" id="showMat" checked>
           </label>
-          <div id="matCustomInputs">
-            <label>Width (in): <input type="number" id="matWidth" value="5" step="0.125" min="0"></label>
-            <label>Height (in): <input type="number" id="matHeight" value="8" step="0.125" min="0"></label>
-          </div>
-          <label>Mat Color:
-            <div class="color-presets">
-              <select id="matColorSelect">
-                <option value="#FFFFFF" data-color="#FFFFFF">Bright White</option>
-                <option value="#F8F8F5" data-color="#F8F8F5">Cotton White</option>
-                <option value="#FFF8E7" data-color="#FFF8E7">Natural White</option>
-                <option value="#F5F2E8" data-color="#F5F2E8">Ivory</option>
-                <option value="#E8E0D5" data-color="#E8E0D5">Wheat</option>
-                <option value="#E5E5E5" data-color="#E5E5E5">Light Gray</option>
-                <option value="#DCDCDC" data-color="#DCDCDC">Classic Gray</option>
-                <option value="#D3D3D3" data-color="#D3D3D3">Stone Gray</option>
-                <option value="#1A1A1A" data-color="#1A1A1A">Midnight Black</option>
-                <option value="#F5E6E8" data-color="#F5E6E8">Blush</option>
-                <option value="#E6F0F5" data-color="#E6F0F5">Ice Blue</option>
-                <option value="#EDF5ED" data-color="#EDF5ED">Sage Mist</option>
+          <div id="matOptions">
+            <label>Common Borders:
+                <select id="matBorderPreset">
+            <option value="2" selected>Standard Border (scales with frame)</option>
+            <option value="">Custom Size</option>
+            <option value="1">Narrow Border (scales with frame)</option>
+            <option value="1.5">Medium Border (scales with frame)</option>
+            <option value="2.5">Wide Border (scales with frame)</option>
+            <option value="3">Extra Wide Border (scales with frame)</option>
               </select>
-              <input type="color" id="matColor" value="#FFFFFF">
+            </label>
+            <div id="matCustomInputs">
+              <label>Width (in): <input type="number" id="matWidth" value="5" step="0.125" min="0"></label>
+              <label>Height (in): <input type="number" id="matHeight" value="8" step="0.125" min="0"></label>
             </div>
-          </label>
+            <label>Mat Color:
+              <div class="color-presets">
+                <select id="matColorSelect">
+                  <option value="#FFFFFF" data-color="#FFFFFF">Bright White</option>
+                  <option value="#F8F8F5" data-color="#F8F8F5">Cotton White</option>
+                  <option value="#FFF8E7" data-color="#FFF8E7">Natural White</option>
+                  <option value="#F5F2E8" data-color="#F5F2E8">Ivory</option>
+                  <option value="#E8E0D5" data-color="#E8E0D5">Wheat</option>
+                  <option value="#E5E5E5" data-color="#E5E5E5">Light Gray</option>
+                  <option value="#DCDCDC" data-color="#DCDCDC">Classic Gray</option>
+                  <option value="#D3D3D3" data-color="#D3D3D3">Stone Gray</option>
+                  <option value="#1A1A1A" data-color="#1A1A1A">Midnight Black</option>
+                  <option value="#F5E6E8" data-color="#F5E6E8">Blush</option>
+                  <option value="#E6F0F5" data-color="#E6F0F5">Ice Blue</option>
+                  <option value="#EDF5ED" data-color="#EDF5ED">Sage Mist</option>
+                </select>
+                <input type="color" id="matColor" value="#FFFFFF">
+              </div>
+            </label>
+          </div>
         </div>
 
         <div class="form-section">
@@ -116,7 +121,9 @@
               <input type="color" id="wallColor" value="#FFF8E1">
             </div>
           </label>
+        </div>
 
+        <div class="form-section">
           <h3 style="margin-top:18px">Image Settings (Optional)</h3>
           <label>Background Color: <input type="color" id="bgColor" value="#FFFFFF"></label>
           <label class="file-upload">
