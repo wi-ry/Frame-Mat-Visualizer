@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame & Mat Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Frame & Mat Visualizer</h1>
+
+  <div class="main-container">
+    <div class="settings-panel">
+      <form id="configForm">
+        <div class="form-section">
+          <h3>Frame Settings</h3>
+          <label>Common Sizes:
+            <select id="frameSizePreset">
+              <option value="">Custom Size</option>
+              <option value="5x7">5" × 7"</option>
+              <option value="8x10">8" × 10"</option>
+              <option value="9x12" selected>9" × 12"</option>
+              <option value="11x14">11" × 14"</option>
+              <option value="12x16">12" × 16"</option>
+              <option value="16x20">16" × 20"</option>
+              <option value="18x24">18" × 24"</option>
+              <option value="20x24">20" × 24"</option>
+              <option value="24x36">24" × 36"</option>
+              <option value="30x40">30" × 40"</option>
+            </select>
+          </label>
+          <label>Orientation:
+            <select id="orientationSelect">
+              <option value="auto" selected>Auto (use image orientation)</option>
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </label>
+          <div id="frameCustomInputs">
+            <label>Width (in): <input type="number" id="frameWidth" value="9" step="0.125" min="0"></label>
+            <label>Height (in): <input type="number" id="frameHeight" value="12" step="0.125" min="0"></label>
+          </div>
+          <label>Frame Thickness (in): <input type="number" id="frameThickness" value="0.75" step="0.125" min="0.25" max="3"></label>
+          <label>Frame Color:
+            <div class="color-presets">
+              <select id="frameColorSelect">
+                <option value="#8B4513" data-color="#8B4513">Traditional Mahogany</option>
+                <option value="#32281C" data-color="#32281C">Dark Espresso</option>
+                <option value="#5C4033" data-color="#5C4033">Rich Walnut</option>
+                <option value="#DEB887" data-color="#DEB887">Natural Oak</option>
+                <option value="#F4F4F4" data-color="#F4F4F4">Gallery White</option>
+                <option value="#1A1A1A" data-color="#1A1A1A">Museum Black</option>
+                <option value="#B87333" data-color="#B87333">Copper</option>
+                <option value="#CFB53B" data-color="#CFB53B">Antique Gold</option>
+                <option value="#CD7F32" data-color="#CD7F32">Bronze</option>
+                <option value="#C0C0C0" data-color="#C0C0C0">Brushed Silver</option>
+                <option value="#4A4A4A" data-color="#4A4A4A">Charcoal</option>
+                <option value="#967969" data-color="#967969">Driftwood</option>
+              </select>
+              <input type="color" id="frameColor" value="#8B4513">
+            </div>
+          </label>
+        </div>
+        
+        <div class="form-section">
+          <h3>Mat Settings</h3>
+          <label>Common Borders:
+              <select id="matBorderPreset">
+          <option value="2" selected>Standard Border (scales with frame)</option>
+          <option value="">Custom Size</option>
+          <option value="1">Narrow Border (scales with frame)</option>
+          <option value="1.5">Medium Border (scales with frame)</option>
+          <option value="2.5">Wide Border (scales with frame)</option>
+          <option value="3">Extra Wide Border (scales with frame)</option>
+            </select>
+          </label>
+          <div id="matCustomInputs">
+            <label>Width (in): <input type="number" id="matWidth" value="5" step="0.125" min="0"></label>
+            <label>Height (in): <input type="number" id="matHeight" value="8" step="0.125" min="0"></label>
+          </div>
+          <label>Mat Color:
+            <div class="color-presets">
+              <select id="matColorSelect">
+                <option value="#FFFFFF" data-color="#FFFFFF">Bright White</option>
+                <option value="#F8F8F5" data-color="#F8F8F5">Cotton White</option>
+                <option value="#FFF8E7" data-color="#FFF8E7">Natural White</option>
+                <option value="#F5F2E8" data-color="#F5F2E8">Ivory</option>
+                <option value="#E8E0D5" data-color="#E8E0D5">Wheat</option>
+                <option value="#E5E5E5" data-color="#E5E5E5">Light Gray</option>
+                <option value="#DCDCDC" data-color="#DCDCDC">Classic Gray</option>
+                <option value="#D3D3D3" data-color="#D3D3D3">Stone Gray</option>
+                <option value="#1A1A1A" data-color="#1A1A1A">Midnight Black</option>
+                <option value="#F5E6E8" data-color="#F5E6E8">Blush</option>
+                <option value="#E6F0F5" data-color="#E6F0F5">Ice Blue</option>
+                <option value="#EDF5ED" data-color="#EDF5ED">Sage Mist</option>
+              </select>
+              <input type="color" id="matColor" value="#FFFFFF">
+            </div>
+          </label>
+        </div>
+
+        <div class="form-section">
+          <h3>Wall Settings</h3>
+          <label>Wall Color:
+            <div class="color-presets">
+              <select id="wallColorSelect">
+                <option value="#FFF8E1" data-color="#FFF8E1">Cream</option>
+                <option value="#FFFFFF" data-color="#FFFFFF">White</option>
+                <option value="#F5F5DC" data-color="#F5F5DC">Beige</option>
+                <option value="#ECEFF1" data-color="#ECEFF1">Light Gray</option>
+                <option value="#F0E6D2" data-color="#F0E6D2">Warm Linen</option>
+                <option value="#EFE1D6" data-color="#EFE1D6">Greige</option>
+                <option value="#F7F0E1" data-color="#F7F0E1">Antique White</option>
+                <option value="#D7CCC8" data-color="#D7CCC8">Soft Taupe</option>
+              </select>
+              <input type="color" id="wallColor" value="#FFF8E1">
+            </div>
+          </label>
+
+          <h3 style="margin-top:18px">Image Settings (Optional)</h3>
+          <label>Background Color: <input type="color" id="bgColor" value="#FFFFFF"></label>
+          <label class="file-upload">
+            Upload Image: <input type="file" id="imageUpload" accept="image/*">
+            <span class="file-name">No file chosen</span>
+          </label>
+          <label>Fill image to available space: <input type="checkbox" id="fillImage"></label>
+            <div class="orientation-info">
+              <span id="rotationInfo" class="rotation-info"></span>
+            </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="preview-panel">
+      <canvas id="canvas"></canvas>
+      <div id="scaleInfo" class="scale-info">Scale: 1 inch = 50 pixels</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
