@@ -5,7 +5,7 @@
   "description": "Visualize frame and mat sizes with optional image upload",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.cjs",
     "lint": "eslint public",
     "lint:fix": "eslint public --fix"
   },
