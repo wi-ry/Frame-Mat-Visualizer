@@ -1,3 +1,4 @@
+/* eslint-env browser */
 const form = document.getElementById("configForm");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -171,58 +172,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle file selection with in-memory processing
 document.getElementById("imageUpload").addEventListener("change", (e) => {
-const file = e.target.files[0];
-if (!file) return;
-// Update file name display
-const fileName = document.querySelector(".file-name");
-fileName.textContent = file.name;
-// Create FileReader for in-memory processing
-const reader = new FileReader();
-reader.onload = (event) => {
-uploadedImage = new Image();
-uploadedImage.src = event.target.result;
-uploadedImage.onload = () => {
-// Check if we need to auto-rotate the image to landscape
-const isLandscape = uploadedImage.width > uploadedImage.height;
-const frameWidth = parseFloat(document.getElementById('frameWidth').value);
-const frameHeight = parseFloat(document.getElementById('frameHeight').value);
-const frameIsLandscape = frameWidth > frameHeight;
-// Check if orientation change is needed
-if (isLandscape !== frameIsLandscape) {
-// Swap frame dimensions
-document.getElementById('frameWidth').value = frameHeight;
-document.getElementById('frameHeight').value = frameWidth;
-// Reset frame preset since we modified dimensions
-document.getElementById('frameSizePreset').value = '';
-updateFrameCustomVisibility();
-// Hide orientation controls since image forced an orientation
-if (orientationSelect) {
-orientationSelect.closest('.form-group').style.display = 'none';
-}
-} else {
-// Show orientation controls if no forced change was needed
-if (orientationSelect) {
-orientationSelect.closest('.form-group').style.display = 'block';
-orientationSelect.value = 'auto';
-}
-}
-updateRotationInfo(false);
-updateMatSizeToFit(); // Ensure mat still fits after any frame changes
-// Force a re-render after a small delay to ensure image is ready
-    setTimeout(() => {
-        updateRotationInfo();
-        updateMatSizeToFit();
-        renderCanvas();
-    }, 10);
-};
-};
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Update file name display
+  const fileName = document.querySelector(".file-name");
+  fileName.textContent = file.name;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    uploadedImage = new Image();
+    uploadedImage.src = event.target.result;
+
+    uploadedImage.onload = () => {
+      const frameWidthInput = document.getElementById('frameWidth');
+      const frameHeightInput = document.getElementById('frameHeight');
+
+      // Auto-rotate frame if needed
+      const isLandscape = uploadedImage.width > uploadedImage.height;
+      const frameIsLandscape = parseFloat(frameWidthInput.value) > parseFloat(frameHeightInput.value);
+      if (isLandscape !== frameIsLandscape) {
+        // Swap dimensions
+        const tmp = frameWidthInput.value;
+        frameWidthInput.value = frameHeightInput.value;
+        frameHeightInput.value = tmp;
+        document.getElementById('frameSizePreset').value = '';
+        updateFrameCustomVisibility();
+      }
+
+      // Update mat to fit the new frame
+      updateMatSizeToFit();
+
+      // Finally, render canvas once everything is updated
+      renderCanvas();
+    };
+  };
 
   reader.onerror = (error) => {
     alert("Error reading file: " + error);
     console.error(error);
   };
 
-  // Read the file as a data URL
   reader.readAsDataURL(file);
 });
 
@@ -258,22 +248,22 @@ if (orientationSelect) orientationSelect.addEventListener('change', () => {
   renderCanvas();
 });
 
-const rotationInfoEl = document.getElementById('rotationInfo');
-
 function updateRotationInfo() {
-  if (!rotationInfoEl) return;
+  if (!uploadedImage) return;
+
   const frameWidth = parseFloat(document.getElementById('frameWidth').value);
   const frameHeight = parseFloat(document.getElementById('frameHeight').value);
   const frameOrientation = frameWidth > frameHeight ? 'landscape' : 'portrait';
   let text = `Frame: ${frameOrientation}`;
-  if (uploadedImage) {
-    const imgOrientation = uploadedImage.width > uploadedImage.height ? 'landscape' : 'portrait';
-    text += ` | Image: ${imgOrientation}`;
-    if (orientationSelect && orientationSelect.value !== 'auto') {
-      text += ` (${orientationSelect.value} mode)`;
-    }
+
+  const imgOrientation = uploadedImage.width > uploadedImage.height ? 'landscape' : 'portrait';
+  text += ` | Image: ${imgOrientation}`;
+  
+  if (orientationSelect && orientationSelect.value !== 'auto') {
+    text += ` (${orientationSelect.value} mode)`;
   }
-  rotationInfoEl.textContent = text;
+
+  console.log(text); // send info to console instead of the page
 }
 
 /*** Rotation handling was moved to earlier event listeners ***/

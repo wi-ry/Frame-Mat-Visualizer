@@ -1,1 +1,14 @@
-{ "extends": ["standard"], "env": { "browser": true, "node": true, "es6": true }, "rules": { "semi": ["error", "always"], "indent": ["error", 2], "quotes": ["error", "single"], "no-unused-vars": "warn", "no-console": "off" } }
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "standard"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    // optional overrides here
+  }
+}
