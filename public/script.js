@@ -4,6 +4,16 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let uploadedImage = null;
 
+// DARK MODE TOGGLE
+document.addEventListener('DOMContentLoaded', () => {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  if (!darkModeToggle) return; // safety check
+
+  darkModeToggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+  });
+});
+
 // Dynamic scaling based on frame size
 function calculateScale(frameWidth, frameHeight) {
   const BASE_SCALE = 38;
@@ -316,7 +326,7 @@ function renderCanvas() {
   const matWpx = matWidthIn * scale;
   const matHpx = matHeightIn * scale;
 
-  const padding = 40;
+  const padding = Math.max(80, Math.min(frameInnerWidth, frameInnerHeight) * 0.5);
   const wallColor = document.getElementById('wallColor')?.value || '#FBFBFB';
   canvas.width = Math.max(outerWpx + padding * 2, 200);
   canvas.height = Math.max(outerHpx + padding * 2, 200);
@@ -383,3 +393,33 @@ function drawImageInMat(finalX, finalY, finalW, finalH) {
 
   ctx.drawImage(sourceImage, finalX + (finalW - drawW) / 2, finalY + (finalH - drawH) / 2, drawW, drawH);
 }
+
+// DARK MODE TOGGLE + PERSISTENCE
+const themeToggle = document.getElementById('themeToggle');
+
+function enableDarkMode() {
+  document.body.classList.add('dark-mode');
+  localStorage.setItem('darkMode', 'enabled');
+  themeToggle.textContent = '🌙';
+}
+
+function disableDarkMode() {
+  document.body.classList.remove('dark-mode');
+  localStorage.setItem('darkMode', 'disabled');
+  themeToggle.textContent = '☀️';
+}
+
+// Load setting on startup
+if (localStorage.getItem('darkMode') === 'enabled') {
+  enableDarkMode();
+} else {
+  disableDarkMode();
+}
+
+themeToggle.addEventListener('click', () => {
+  if (document.body.classList.contains('dark-mode')) {
+    disableDarkMode();
+  } else {
+    enableDarkMode();
+  }
+});
